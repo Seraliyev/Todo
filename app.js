@@ -125,7 +125,8 @@ app.get("/:customListName", async function(req, res){
 
 
 
+module.exports = app;
 
-app.listen(3000, function(){
-    console.log("Server is running on port 3000");
-});
+if (require.main === module) {
+    app.listen(3000, () => console.log('Running locally on 3000!'));
+  }
