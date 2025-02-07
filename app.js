@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { default: mongoose } = require('mongoose');
 const _ = require('lodash');
+require("dotenv").config();
 
 const app = express();
 
@@ -11,7 +12,18 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
-mongoose.connect("mongodb+srv://admin:admin@cluster0.k70jn.mongodb.net/")
+
+const connectDB = async () => {
+    try {
+        await mongoose.connect(process.env.MONGODB_CONNECT_URI)
+        console.log("Connect to MongoDB successfully")
+    } catch (error) {
+        console.log("Connect failed " + error.message )
+    }
+}
+
+module.exports = connectDB
+connectDB();
 
 const itemsSchema = {
     name: String
